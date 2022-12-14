@@ -1,0 +1,53 @@
+{% import 'macros/form.html' as form %}
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('External Links') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('External Links'), controller='ckanext.extlink.controllers:ExtLinkController', action='form' %}</li>
+{% endblock %}
+
+{% block primary_content %}
+  <div class="module">
+    <div class="module-content">
+      <h1 class="hide-heading">{% block page_heading %}{{ _('External Links') }}{% endblock %}</h1>
+
+      <form class="form-horizontal" id="extlink-form" action="{{ h.url_for(controller='ckanext.extlink.controllers:ExtLinkController', action='form') }}" method="post">
+
+        {% call form.textarea('white-list', id='field-white-list', label=_('White listed domains'), value=c.extlinkdata['white-list']) %}
+        <span class="info-block">
+          {{ _('Entries can be seperated by comma, space, or line break.') }}
+        </span>
+        {% endcall %}
+
+        {{ form.textarea('message', id='field-message', label=_('Pop-up message'), value=c.extlinkdata['message'], placeholder=c.extlinkdata['placeholder']) }}
+
+        <p class="form-actions">
+          <input id="save" name="save" value="Save" type="submit" class="btn btn-primary pull-right">
+        </p>
+      </form>
+
+    </div>
+  </div>
+{% endblock %}
+
+{% block secondary_content %}
+  <div class="module module-narrow module-shallow">
+    <h2 class="module-heading">
+      <i class="icon-info-sign"></i>
+      {{ _('How to Use External Links?') }}
+    </h2>
+    <div class="module-content">
+      {% trans %}
+        <p>
+          Domain White List:<br/>
+          List of domains and subdomains to be white-listed so that their links are not to be considered as external links.
+        </p>
+        <p>
+          Pop-up Message:<br/>
+          Pop-up message to be displayed when exteral links are mouse hovered.
+        </p>
+      {% endtrans %}
+    </div>
+  </div>
+{% endblock %}
